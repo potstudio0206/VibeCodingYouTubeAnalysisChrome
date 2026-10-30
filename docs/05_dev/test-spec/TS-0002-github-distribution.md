@@ -58,7 +58,7 @@ updated: 2026-10-30
 | TS-0002-V10 | M-6 | — | T-E4 の自動テストで代用済み | 実機確認は任意 | 手動（任意） |
 
 ### 文書確認（実施済みはView係・開発課長が実行）
-DC-01（hlx-ext 0件）、DC-02、DC-04、DC-05、DC-06（禁止語 0件）、DC-07、DC-09（fetch( は fetcher.js の3件）、DC-13（README.txt と manifest が 1.2.0）、DC-15（UTF-8 BOM・CRLF のまま）、DC-16（innerHTML 0件）：すべて合格。DC-08（manifest 差分なし）・DC-12（shared・analyzer.js の差分なし、適合テスト合格）：開発課長が確認し合格。DC-03・DC-14（README.md・LICENSE）は #7 の回答待ちで未実施。
+DC-01（hlx-ext 0件）、DC-02、DC-04、DC-05、DC-06（禁止語 0件）、DC-07、DC-09（fetch( は fetcher.js の3件）、DC-13（README.txt と manifest が 1.2.1。追補1で更新）、DC-15（UTF-8 BOM・CRLF のまま）、DC-16（innerHTML 0件）：すべて合格。DC-08（manifest 差分なし）・DC-12（shared・analyzer.js の差分なし、適合テスト合格）：開発課長が確認し合格。DC-03・DC-14（README.md・LICENSE）：#7 の回答（2026-10-30、MIT・版数 1.2.1）を受けて DD-0001 1.2 節どおりに実装し、README.md の「開発・運用の体制」「テスト」の節が変更前と同一であること、LICENSE が標準の MIT 全文（著作権の行のみ「2026 なべさん」）であること、README.txt の末尾に「■ ライセンス」節があることを確認し合格。
 
 ## 修正前に落ちたこと
 - Model：実装前の fetcher.test.js は pass 4 / fail 9（M01〜M10 の新規分）。
@@ -66,7 +66,7 @@ DC-01（hlx-ext 0件）、DC-02、DC-04、DC-05、DC-06（禁止語 0件）、DC
 - View：E2E は3係がそろってから実行（案内の要素が無い状態を作る前提がないため、修正前の失敗は確認していない）。
 
 ## 受け入れ基準との対応
-A-07 → V01・V02・V05・VM01、A-08 → V03・VM01・VM02、A-09〜A-12 → 文書確認・V08・V09、A-13 → M01〜M04・M10、A-14 → M07、A-15 → M02・M05・M06、A-16 → M08・M09・VM03〜VM08・V06、A-17 → DC-08、A-18 → V04・DC-09、A-19 → M11・VM07・VM09、A-20 → V05、A-21 → DC-12、A-22 → DC-13。A-05・A-23（README.md・LICENSE）は #7 回答待ち。
+A-07 → V01・V02・V05・VM01、A-08 → V03・VM01・VM02、A-09〜A-12 → 文書確認・V08・V09、A-13 → M01〜M04・M10、A-14 → M07、A-15 → M02・M05・M06、A-16 → M08・M09・VM03〜VM08・V06、A-17 → DC-08、A-18 → V04・DC-09、A-19 → M11・VM07・VM09、A-20 → V05、A-21 → DC-12、A-22 → DC-13。A-05・A-23 → DC-03・DC-14（#7 回答で実施済み）。
 
 ## 実行方法
 - 速いテスト：node --test "tests/unit/*.test.js"（49件合格、2026-10-30）
