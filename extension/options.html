@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>盛り上がり検知の設定</title>
+<style>
+  :root { --bg:#fff; --card:#f4f5f7; --fg:#0f0f0f; --sub:#606060; --line:#e3e5e8; --accent:#e5294b; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#181818; --card:#232323; --fg:#f1f1f1; --sub:#aaa; --line:#333; --accent:#ff4d6d; }
+  }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:"Yu Gothic UI","Meiryo",sans-serif; font-size:14px; }
+  .wrap { max-width:680px; margin:0 auto; padding:32px 16px; }
+  h1 { font-size:20px; margin:0 0 24px; }
+  .field { margin-bottom:22px; }
+  label { display:block; font-weight:700; margin-bottom:6px; }
+  .help { color:var(--sub); font-size:12px; margin-top:4px; }
+  select, input[type=number], textarea {
+    background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:8px;
+    padding:8px 10px; font-size:14px; font-family:inherit;
+  }
+  textarea { width:100%; box-sizing:border-box; height:170px; font-family:Consolas,"BIZ UDGothic",monospace; font-size:13px; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; }
+  .row .field { flex:1; min-width:180px; }
+  button { padding:10px 18px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--fg); font-size:14px; cursor:pointer; margin-right:8px; }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; font-weight:700; }
+  #msg { margin-left:8px; color:var(--sub); }
+  #errors { color:var(--accent); font-size:12px; margin-top:6px; white-space:pre-line; }
+  hr { border:none; border-top:1px solid var(--line); margin:28px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>盛り上がり検知の設定</h1>
+
+  <div class="field">
+    <label for="minSpeed">候補の出やすさ</label>
+    <select id="minSpeed">
+      <option value="1.3">多め（小さな盛り上がりも拾う）</option>
+      <option value="1.5">標準</option>
+      <option value="2">少なめ（大きな盛り上がりだけ）</option>
+    </select>
+    <div class="help">コメントが平常の何倍流れたら候補にするか（多め 1.3倍／標準 1.5倍／少なめ 2倍）。</div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="binSec">集計の細かさ</label>
+      <select id="binSec">
+        <option value="30">30秒ごと</option>
+        <option value="60">1分ごと</option>
+        <option value="120">2分ごと</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="topN">候補の最大数</label>
+      <input type="number" id="topN" min="5" max="100" step="1">
+    </div>
+    <div class="field">
+      <label for="leadSec">何秒前から再生するか</label>
+      <input type="number" id="leadSec" min="0" max="300" step="5">
+      <div class="help">コメントは出来事より遅れて流れるため、少し前から再生します。</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="keywords">検知するワード</label>
+    <textarea id="keywords" spellcheck="false"></textarea>
+    <div class="help">1行に「名前: パターン」。パターンは | で区切って複数書けます（正規表現）。配信者ごとの定番コメント（例：「おかえり」「ないす」）を追加すると精度が上がります。</div>
+    <div id="errors"></div>
+  </div>
+
+  <button class="primary" id="save">保存</button>
+  <button id="reset">初期設定に戻す</button>
+  <span id="msg"></span>
+
+  <hr>
+  <div class="field">
+    <label>保存したチャット</label>
+    <div class="help" id="cacheInfo">確認中…</div>
+    <div style="margin-top:8px"><button id="clear">保存したチャットをすべて削除</button></div>
+    <div class="help">一度解析した配信はチャットを保存しているので、次回は一瞬で表示されます。</div>
+  </div>
+</div>
+<script src="analyzer.js"></script>
+<script src="options.js"></script>
+</body>
+</html>
