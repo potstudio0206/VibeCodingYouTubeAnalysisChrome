@@ -321,14 +321,14 @@
     }
     return [0, d];
   }
-  const LABEL_W = 70, MARK_H = 9, AXIS_H = 16, GAP = 3;
+  const LABEL_W = 70, MARK_H = 9, AXIS_H = 16, GAP = 3, ROW_H = 38;   // ROW_H：1行の高さ。表示（ヒートマップ／折れ線）に依らない（BD-0002）
   function css(name) { return getComputedStyle(panel).getPropertyValue(name).trim(); }
 
   function drawChart() {
     const r = S.res;
     if (!r || !panel.classList.contains('hlx-open') || panel.dataset.view !== 'done') return;
     const R = rows();
-    const rh = S.mode === 'heat' ? 18 : 38;
+    const rh = ROW_H;   // 表示を切り替えても高さを変えない（REQ-0002）
     const W = canvas.clientWidth || 360, H = MARK_H + R.length * (rh + GAP) + AXIS_H;
     const dpr = window.devicePixelRatio || 1;
     canvas.style.height = H + 'px';
