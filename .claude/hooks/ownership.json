@@ -62,7 +62,9 @@
     ],
     "chrome-dev-kacho": [
       "docs/05_dev/**",
-      "docs/00_status/**"
+      "docs/00_status/**",
+      "README.md",
+      "LICENSE"
     ],
     "chrome-dev-model": [
       "extension/model/**",
@@ -87,7 +89,9 @@
       "extension/README.txt",
       "tests/**",
       "docs/05_dev/**",
-      "extension/manifest.json"
+      "extension/manifest.json",
+      "README.md",
+      "LICENSE"
     ],
     "chrome-qa-kacho": [
       "docs/06_qa/**",

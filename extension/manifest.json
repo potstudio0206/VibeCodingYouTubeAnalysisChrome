@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "配信 盛り上がり検知 in Chrome",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "YouTube配信アーカイブのチャットから、コメント量・加速度・同じコメントの割合をグラフにし、盛り上がった場面を一覧にします。",
   "permissions": ["storage", "unlimitedStorage"],
   "background": { "service_worker": "background.js" },
