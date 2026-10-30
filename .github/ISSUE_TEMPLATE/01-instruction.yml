@@ -1,0 +1,26 @@
+name: 社長指示
+description: 部長に仕事を依頼する（新機能・改善・調査など）
+title: "[社長指示] "
+labels: ["社長指示"]
+body:
+  - type: textarea
+    id: request
+    attributes:
+      label: 依頼内容
+      description: やってほしいこと。困っていることや背景も書くと伝わりやすくなります
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度
+      options:
+        - 高（今日中に着手）
+        - 中（今週中）
+        - 低（手が空いたら）
+    validations:
+      required: true
+  - type: input
+    id: due
+    attributes:
+      label: 期限（任意）

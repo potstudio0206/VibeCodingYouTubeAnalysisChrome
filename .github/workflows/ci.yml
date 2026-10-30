@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  PYTHONUTF8: "1"
+
+jobs:
+  unit:
+    name: 構文・単体・適合テスト
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 構文チェック
+        run: for f in extension/*.js; do node --check "$f"; done
+      - name: manifest.json の検査
+        run: python3 -c "import json; json.load(open('extension/manifest.json', encoding='utf-8'))"
+      - name: 共通仕様の基準データが参照実装と一致するか
+        run: python3 shared/reference/metrics_ref.py --check
+      - name: 単体・適合テスト
+        run: node --test "tests/unit/*.test.js"
+
+  e2e:
+    name: E2Eテスト（拡張機能を読み込んだChromium）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: 依存
+        run: |
+          pip install -r requirements-dev.txt
+          python -m playwright install --with-deps chromium
+      - name: E2Eテスト
+        run: python -m unittest discover -s tests/e2e -v
+      - name: スクリーンショットを保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots
+          path: tests/e2e/_artifacts/
+          if-no-files-found: ignore
+
+  shared-sync:
+    name: 共通仕様のずれ確認（警告のみ）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check_shared_sync.py --remote --warn-only

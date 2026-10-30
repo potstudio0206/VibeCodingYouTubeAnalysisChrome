@@ -1,0 +1,128 @@
+{
+  "_説明": "エージェントごとに編集してよい場所（リポジトリのルートからのパス。* は1階層、** は何階層でも）。ここに無いエージェント（Explore など）は unknown_agent の場所だけ。自分のメモリ .claude/agent-memory/<名前>/ は常に可。変更は部長が社長の許可を得て行う。",
+  "unknown_agent": [
+    "docs/00_status/**"
+  ],
+  "roles": {
+    "chrome-bucho": [
+      "docs/00_status/**",
+      "CLAUDE.md",
+      ".claude/settings.json",
+      ".claude/agents/**",
+      ".claude/skills/**",
+      ".claude/hooks/**"
+    ],
+    "chrome-research-kacho": [
+      "docs/01_research/**",
+      "docs/00_status/**"
+    ],
+    "chrome-research-triage": [
+      "docs/01_research/**"
+    ],
+    "chrome-research-trends": [
+      "docs/01_research/**"
+    ],
+    "chrome-research-fusion": [
+      "docs/01_research/**",
+      "research/**"
+    ],
+    "chrome-req-kacho": [
+      "docs/02_requirements/**",
+      "docs/00_status/**",
+      "shared/**"
+    ],
+    "chrome-req-spec": [
+      "docs/02_requirements/**"
+    ],
+    "chrome-req-define": [
+      "docs/02_requirements/**",
+      "shared/**"
+    ],
+    "chrome-design-kacho": [
+      "docs/03_design/**",
+      "docs/00_status/**"
+    ],
+    "chrome-design-basic": [
+      "docs/03_design/**"
+    ],
+    "chrome-design-detail": [
+      "docs/03_design/**"
+    ],
+    "chrome-refactor-kacho": [
+      "docs/04_refactoring/**",
+      "docs/00_status/**"
+    ],
+    "chrome-refactor-analyze": [
+      "docs/04_refactoring/**"
+    ],
+    "chrome-refactor-migrate": [
+      "docs/04_refactoring/**",
+      "extension/**",
+      "tests/**"
+    ],
+    "chrome-dev-kacho": [
+      "docs/05_dev/**",
+      "docs/00_status/**"
+    ],
+    "chrome-dev-model": [
+      "extension/model/**",
+      "extension/analyzer.js",
+      "extension/fetcher.js",
+      "tests/**",
+      "docs/05_dev/**"
+    ],
+    "chrome-dev-viewmodel": [
+      "extension/viewmodel/**",
+      "tests/**",
+      "docs/05_dev/**"
+    ],
+    "chrome-dev-view": [
+      "extension/view/**",
+      "extension/content.js",
+      "extension/panel.css",
+      "extension/options.html",
+      "extension/options.js",
+      "extension/background.js",
+      "extension/icons/**",
+      "extension/README.txt",
+      "tests/**",
+      "docs/05_dev/**",
+      "extension/manifest.json"
+    ],
+    "chrome-qa-kacho": [
+      "docs/06_qa/**",
+      "docs/00_status/**",
+      ".github/**"
+    ],
+    "chrome-qa-test": [
+      "docs/06_qa/**",
+      "tests/**"
+    ],
+    "chrome-qa-opsdoc": [
+      "docs/06_qa/**"
+    ],
+    "chrome-ops-kacho": [
+      "docs/07_ops/**",
+      "docs/00_status/**"
+    ],
+    "chrome-ops-run": [
+      "docs/07_ops/**",
+      "ops/**",
+      "requirements-dev.txt",
+      "extension/manifest.json"
+    ],
+    "chrome-ops-feedback": [
+      "docs/07_ops/**"
+    ],
+    "chrome-player-kacho": [
+      "docs/08_player/**",
+      "docs/00_status/**"
+    ],
+    "chrome-player-good": [
+      "docs/08_player/**"
+    ],
+    "chrome-player-bad": [
+      "docs/08_player/**"
+    ]
+  }
+}
