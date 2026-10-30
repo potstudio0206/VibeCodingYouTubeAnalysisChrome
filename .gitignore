@@ -1,0 +1,19 @@
+# 実行結果・キャッシュ
+__pycache__/
+*.pyc
+app/output/
+app/templates/learned_template.png
+app/templates/learned_template.png.pos
+app/templates/ranked_match.*
+tests/e2e/_artifacts/
+node_modules/
+
+# Claude Code の個人設定と作業状態（共有しない）
+.claude/settings.local.json
+.claude/state/
+.claude/agent-memory-local/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
