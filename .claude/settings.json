@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "agent": "chrome-bucho",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch)",
+      "Bash(git branch *)",
+      "Bash(git switch *)",
+      "Bash(git checkout -b *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git fetch *)",
+      "Bash(git pull *)",
+      "Bash(git push -u origin *)",
+      "Bash(git push origin *)",
+      "Bash(git restore *)",
+      "Bash(git stash *)",
+      "Bash(git rev-parse *)",
+      "Bash(git ls-files *)",
+      "Bash(gh issue *)",
+      "Bash(gh pr *)",
+      "Bash(gh run *)",
+      "Bash(gh label *)",
+      "Bash(gh repo view *)",
+      "Bash(python -m unittest *)",
+      "Bash(python shared/reference/metrics_ref.py *)",
+      "Bash(python scripts/check_shared_sync.py *)",
+      "Bash(python scripts/check_shared_sync.py)",
+      "WebSearch",
+      "WebFetch",
+      "Bash(node --test *)",
+      "Bash(node --check *)"
+    ],
+    "ask": [
+      "Edit(./.claude/settings.json)",
+      "Write(./.claude/settings.json)",
+      "Edit(./.claude/agents/**)",
+      "Write(./.claude/agents/**)",
+      "Edit(./.claude/skills/**)",
+      "Write(./.claude/skills/**)",
+      "Edit(./.claude/hooks/**)",
+      "Write(./.claude/hooks/**)",
+      "Edit(./CLAUDE.md)",
+      "Write(./CLAUDE.md)"
+    ],
+    "deny": [
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git push origin main)",
+      "Bash(git push origin main *)",
+      "Bash(git push origin HEAD:main *)",
+      "Bash(git reset --hard *)",
+      "Bash(rm -rf *)",
+      "Read(./.env)",
+      "Read(./.env.*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" session_brief.py",
+            "timeout": 40
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" guard_paths.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" quick_check.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" progress_log.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" progress_log.py",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "chrome-dev-.*|chrome-refactor-migrate",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/run.sh\" gate_tests.py",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  }
+}

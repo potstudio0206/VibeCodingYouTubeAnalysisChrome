@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "配信 盛り上がり検知 in Chrome",
+  "version": "1.2.0",
+  "description": "YouTube配信アーカイブのチャットから、コメント量・加速度・同じコメントの割合をグラフにし、盛り上がった場面を一覧にします。",
+  "permissions": ["storage", "unlimitedStorage"],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "盛り上がり検知（YouTubeの動画ページで押すとパネルを開閉）",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png" }
+  },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["analyzer.js", "fetcher.js", "content.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

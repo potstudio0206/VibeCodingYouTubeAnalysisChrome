@@ -1,0 +1,24 @@
+name: 判断待ち
+description: 社長の判断が必要な事項（通常は部長が起票します）
+title: "[判断待ち] "
+labels: ["社長判断"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: 判断してほしいこと
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: 選択肢（推奨を先頭に）
+      value: |
+        1. 【推奨】
+        2.
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・影響・期限

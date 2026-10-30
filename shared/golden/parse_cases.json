@@ -1,0 +1,924 @@
+{
+ "spec_version": "1.0.0",
+ "note": "自動生成。手で編集しないこと（metrics_ref.py --write-golden）",
+ "cases": [
+  {
+   "name": "renderer_kinds_and_text",
+   "description": "レンダラーの種類分け、runs/simpleText/絵文字の本文化、対象外の種類を捨てること",
+   "actions": [
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatViewerEngagementMessageRenderer": {
+           "id": "sys1",
+           "message": {
+            "runs": [
+             {
+              "text": "ようこそ"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "100"
+     }
+    },
+    {
+     "clickTrackingParams": "not-a-replay-action"
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t1",
+           "message": {
+            "runs": [
+             {
+              "text": "こんにちは"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "1500"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t2",
+           "message": {
+            "runs": [
+             {
+              "text": "草"
+             },
+             {
+              "emoji": {
+               "emojiId": "UCabc/xyz",
+               "isCustomEmoji": true,
+               "shortcuts": [
+                ":_kusa:",
+                ":kusa:"
+               ]
+              }
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "2000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t3",
+           "message": {
+            "runs": [
+             {
+              "emoji": {
+               "emojiId": "😂"
+              }
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "2500"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t4",
+           "message": {
+            "runs": [
+             {
+              "text": ""
+             },
+             {
+              "emoji": {
+               "emojiId": "👏"
+              }
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "2600"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t5",
+           "message": {
+            "runs": [
+             {
+              "emoji": {
+               "isCustomEmoji": true,
+               "shortcuts": []
+              }
+             },
+             {
+              "text": "!"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "2700"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t6",
+           "message": {
+            "simpleText": "8888"
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "3000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t7",
+           "message": {
+            "simpleText": "",
+            "runs": [
+             {
+              "text": "runsが使われる"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "3100"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatPaidMessageRenderer": {
+           "id": "p1",
+           "message": {
+            "runs": [
+             {
+              "text": "おめでとう"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "4000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatPaidMessageRenderer": {
+           "id": "p2"
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "4100"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatPaidStickerRenderer": {
+           "id": "p3"
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "4200"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatMembershipItemRenderer": {
+           "id": "m1",
+           "message": {
+            "runs": [
+             {
+              "text": "メンバー歴 1か月"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "5000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatSponsorshipsGiftPurchaseAnnouncementRenderer": {
+           "id": "m2"
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "5100"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "markChatItemAsDeletedAction": {
+         "targetItemId": "zzz"
+        }
+       },
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t8",
+           "message": {
+            "runs": [
+             {
+              "text": "削除操作と同居"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "6000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "t9"
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "6100"
+     }
+    }
+   ],
+   "expected": [
+    [
+     1.5,
+     "text",
+     "こんにちは"
+    ],
+    [
+     2.0,
+     "text",
+     "草:_kusa:"
+    ],
+    [
+     2.5,
+     "text",
+     "😂"
+    ],
+    [
+     2.6,
+     "text",
+     "👏"
+    ],
+    [
+     2.7,
+     "text",
+     "!"
+    ],
+    [
+     3.0,
+     "text",
+     "8888"
+    ],
+    [
+     3.1,
+     "text",
+     "runsが使われる"
+    ],
+    [
+     4.0,
+     "money",
+     "おめでとう"
+    ],
+    [
+     4.1,
+     "money",
+     ""
+    ],
+    [
+     4.2,
+     "money",
+     ""
+    ],
+    [
+     5.0,
+     "member",
+     ""
+    ],
+    [
+     5.1,
+     "member",
+     ""
+    ],
+    [
+     6.0,
+     "text",
+     "削除操作と同居"
+    ],
+    [
+     6.1,
+     "text",
+     ""
+    ]
+   ]
+  },
+  {
+   "name": "time_rules",
+   "description": "時刻が無い・空・数値でない・負は捨てる。丸めない。昇順に並べ、同時刻は出現順を保つ",
+   "actions": [
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "x1",
+           "message": {
+            "runs": [
+             {
+              "text": "時刻なし"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ]
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "x2",
+           "message": {
+            "runs": [
+             {
+              "text": "空文字"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": ""
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "x3",
+           "message": {
+            "runs": [
+             {
+              "text": "負"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "-100"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "x4",
+           "message": {
+            "runs": [
+             {
+              "text": "数値でない"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "abc"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y1",
+           "message": {
+            "runs": [
+             {
+              "text": "後"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "9000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y2",
+           "message": {
+            "runs": [
+             {
+              "text": "数値型"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": 61234
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y3",
+           "message": {
+            "runs": [
+             {
+              "text": "先頭"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "0"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y4",
+           "message": {
+            "runs": [
+             {
+              "text": "丸めない"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "12345"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y5",
+           "message": {
+            "runs": [
+             {
+              "text": "境界の直前"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "29999"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y6",
+           "message": {
+            "runs": [
+             {
+              "text": "同時刻1"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "7000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "y7",
+           "message": {
+            "runs": [
+             {
+              "text": "同時刻2"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "7000"
+     }
+    }
+   ],
+   "expected": [
+    [
+     0.0,
+     "text",
+     "先頭"
+    ],
+    [
+     7.0,
+     "text",
+     "同時刻1"
+    ],
+    [
+     7.0,
+     "text",
+     "同時刻2"
+    ],
+    [
+     9.0,
+     "text",
+     "後"
+    ],
+    [
+     12.345,
+     "text",
+     "丸めない"
+    ],
+    [
+     29.999,
+     "text",
+     "境界の直前"
+    ],
+    [
+     61.234,
+     "text",
+     "数値型"
+    ]
+   ]
+  },
+  {
+   "name": "dedupe_by_id",
+   "description": "同じidは最初の1件だけ残す（時刻が違っても）。idが無い項目は重複扱いしない",
+   "actions": [
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "a1",
+           "message": {
+            "runs": [
+             {
+              "text": "x"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "1000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "a1",
+           "message": {
+            "runs": [
+             {
+              "text": "x"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "1000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "a1",
+           "message": {
+            "runs": [
+             {
+              "text": "別の時刻でも同じid"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "2000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "message": {
+            "runs": [
+             {
+              "text": "idなし"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "3000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "message": {
+            "runs": [
+             {
+              "text": "idなし"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "3000"
+     }
+    }
+   ],
+   "expected": [
+    [
+     1.0,
+     "text",
+     "x"
+    ],
+    [
+     3.0,
+     "text",
+     "idなし"
+    ],
+    [
+     3.0,
+     "text",
+     "idなし"
+    ]
+   ]
+  },
+  {
+   "name": "long_text_not_truncated",
+   "description": "本文は切り詰めない（切り詰めは正規化でのみ行う）",
+   "actions": [
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "l1",
+           "message": {
+            "runs": [
+             {
+              "text": "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww草ああああああああああああああああああああああああああああああああああああああああ"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "1000"
+     }
+    },
+    {
+     "replayChatItemAction": {
+      "actions": [
+       {
+        "addChatItemAction": {
+         "item": {
+          "liveChatTextMessageRenderer": {
+           "id": "l2",
+           "message": {
+            "runs": [
+             {
+              "text": "😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂"
+             }
+            ]
+           }
+          }
+         }
+        }
+       }
+      ],
+      "videoOffsetTimeMsec": "1500"
+     }
+    }
+   ],
+   "expected": [
+    [
+     1.0,
+     "text",
+     "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww草ああああああああああああああああああああああああああああああああああああああああ"
+    ],
+    [
+     1.5,
+     "text",
+     "😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂"
+    ]
+   ]
+  }
+ ]
+}

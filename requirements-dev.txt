@@ -1,0 +1,3 @@
+# 開発・テスト用（E2Eテスト）
+playwright       # 初回のみ: python -m playwright install chromium
+imageio-ffmpeg   # テスト用の動画づくり
