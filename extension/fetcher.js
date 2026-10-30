@@ -104,6 +104,15 @@ function hlxCollect(actions, items, ids) {
 
 const hlxSleep = (ms) => new Promise(r => setTimeout(r, ms));
 
+// 利用者向けのエラー（BD-0001 3.2）。目印 hlxUser を付け、content.js が ViewModel の hlxErrorStatus で想定外のエラーと区別する
+const HLX_SPEC_CHANGE_TAIL = 'YouTube 側の仕様変更で読み取れなくなっている可能性があります。';
+const HLX_SPEC_CHANGE_NOTE = '何度か試しても同じ場合は、' + HLX_SPEC_CHANGE_TAIL;
+function hlxUserError(message) {
+  const e = new Error(message);
+  e.hlxUser = true;
+  return e;
+}
+
 /**
  * vid のチャットリプレイを全件取得する
  * opts.onProgress({phase, ms, duration, count})
@@ -123,10 +132,10 @@ async function hlxFetchChat(vid, opts = {}) {
   abort();
   const data = hlxExtractVar(html, 'ytInitialData');
   const player = hlxExtractVar(html, 'ytInitialPlayerResponse');
-  if (!data) throw new Error('ページ情報を読み取れませんでした。ページを再読み込みしてからもう一度お試しください。');
+  if (!data) throw hlxUserError('ページ情報を読み取れませんでした。ページを再読み込みしてからもう一度お試しください。' + HLX_SPEC_CHANGE_NOTE);
 
   const vd = player?.videoDetails || {};
-  if (vd.isLive) throw new Error('配信中は解析できません。配信が終わってアーカイブになってから実行してください。');
+  if (vd.isLive) throw hlxUserError('配信中は解析できません。配信が終わってアーカイブになってから実行してください。');
   const info = {
     id: vid,
     title: vd.title || '',
@@ -138,11 +147,11 @@ async function hlxFetchChat(vid, opts = {}) {
   const lcr = data?.contents?.twoColumnWatchNextResults?.conversationBar?.liveChatRenderer;
   if (!lcr) {
     const ps = player?.playabilityStatus?.status;
-    if (ps && ps !== 'OK') throw new Error('この動画は未ログインでは見られないため解析できません（メンバー限定・年齢制限など）。');
-    throw new Error('この動画にはチャットリプレイがありません（通常の動画、チャット無効、またはアーカイブ処理中）。');
+    if (ps && ps !== 'OK') throw hlxUserError('この動画は未ログインでは見られないため解析できません（メンバー限定・年齢制限など）。');
+    throw hlxUserError('この動画にはチャットリプレイがありません（通常の動画、チャット無効、またはアーカイブ処理中）。通常の動画・チャット無効・処理中のどれでもないのに出る場合は、' + HLX_SPEC_CHANGE_TAIL);
   }
   let cont = lcr.continuations?.[0]?.reloadContinuationData?.continuation;
-  if (!cont) throw new Error('チャットリプレイの読み込み口が見つかりませんでした。');
+  if (!cont) throw hlxUserError('チャットリプレイの読み込み口が見つかりませんでした。' + HLX_SPEC_CHANGE_NOTE);
 
   const apiKey = (html.match(/"INNERTUBE_API_KEY":"([^"]+)"/) || [])[1];
   const clientVersion = (html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/) || [])[1] || '2.20261001.00.00';
@@ -182,9 +191,9 @@ async function hlxFetchChat(vid, opts = {}) {
         return j?.continuationContents?.liveChatContinuation || null;
       }
       if (r.status === 429 || r.status >= 500) { await hlxSleep(2000 * (attempt + 1)); continue; }
-      throw new Error(`YouTubeからの取得に失敗しました（エラー ${r.status}）。`);
+      throw hlxUserError(`YouTubeからの取得に失敗しました（エラー ${r.status}）。` + HLX_SPEC_CHANGE_NOTE);
     }
-    throw new Error('YouTubeからの応答がありません。少し時間をおいて再試行してください。');
+    throw hlxUserError('YouTubeからの応答がありません。少し時間をおいて再試行してください。' + HLX_SPEC_CHANGE_NOTE);
   };
 
   const items = [];

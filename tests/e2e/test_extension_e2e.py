@@ -5,6 +5,7 @@
 - パネルを開いて解析が完了し、見どころ候補とシークバーの印が出る
 - グラフのクリックで動画がその場面（少し前）へジャンプする
 - 再生位置の縦線と、シークバーで指している位置の点線がグラフに出る
+- 初回案内（DD-0001）：出る・確認すると消える・想定外のエラーは日本語の定型文
 
 準備（初回のみ）:
   pip install -r requirements-dev.txt
@@ -242,6 +243,95 @@ class ExtensionE2ETest(unittest.TestCase):
                 self.assertTrue(near(1200), f"再生位置の縦線が無い: {ink}")
                 self.assertTrue(near(450), f"シークバーの点線が無い: {ink}")
                 pg.locator(".hlx-chart-wrap").screenshot(path=os.path.join(ARTIFACTS, "timeline.png"))
+                self.assertEqual(errors, [])
+            finally:
+                ctx.close()
+
+
+    def test_first_notice_shows_acks_and_stays_hidden(self):
+        """DD-0001 T-E1/T-E2/T-E5：初回案内が出て、解析を妨げず、「確認しました」で消え、再読み込みしても出ない"""
+        with sync_playwright() as pw:
+            ctx = pw.chromium.launch_persistent_context(
+                os.path.join(self.tmp, "profile-notice"), channel="chromium", headless=True,
+                args=[f"--disable-extensions-except={EXT}", f"--load-extension={EXT}"],
+                viewport={"width": 1400, "height": 1000})
+            try:
+                ctx.route("https://www.youtube.com/**", self.route)
+                urls = []
+                ctx.on("request", lambda r: urls.append(r.url))
+                pg = ctx.new_page()
+                errors = []
+                pg.on("pageerror", lambda e: errors.append(str(e)))
+                pg.goto(f"https://www.youtube.com/watch?v={VID}")
+                pg.wait_for_selector(".hlx-fab", timeout=20000)
+                pg.click(".hlx-fab")
+
+                # T-E1：案内が出る（既読の読み出しが終わると hidden が外れる）
+                pg.wait_for_function("document.querySelector('.hlx-notice') && !document.querySelector('.hlx-notice').hidden",
+                                     timeout=10000)
+                text = pg.inner_text(".hlx-notice")
+                for word in ["はじめにお読みください", "非公式", "自己責任", "保存します"]:
+                    self.assertIn(word, text)
+                # 案内を出したまま解析できる（ボタンを覆わない）
+                pg.click(".hlx-primary")
+                pg.wait_for_function("['done','error'].includes(document.querySelector('.hlx-panel').dataset.view)",
+                                     timeout=60000)
+                self.assertEqual(pg.eval_on_selector(".hlx-panel", "e => e.dataset.view"), "done",
+                                 pg.inner_text(".hlx-status"))
+                self.assertFalse(pg.eval_on_selector(".hlx-notice", "e => e.hidden"), "解析が終わっても案内は出たまま")
+                pg.screenshot(path=os.path.join(ARTIFACTS, "notice.png"))
+
+                # T-E2：確認すると消える。再読み込みしても出ない
+                before = len(urls)
+                pg.click(".hlx-notice-ok")
+                self.assertTrue(pg.eval_on_selector(".hlx-notice", "e => e.hidden"))
+                pg.wait_for_timeout(500)
+                self.assertEqual(len(urls), before, "案内の確認で通信が増えてはいけない")
+                pg.reload()
+                pg.wait_for_selector(".hlx-fab", timeout=20000)
+                pg.click(".hlx-fab")
+                pg.wait_for_function("document.querySelector('.hlx-panel').dataset.view === 'done'", timeout=60000)
+                pg.wait_for_timeout(1000)
+                self.assertTrue(pg.eval_on_selector(".hlx-notice", "e => e.hidden"), "確認済みなら再読み込み後も出ない")
+                self.assertEqual(errors, [])
+
+                # T-E5：http の宛先は www.youtube.com だけ
+                hosts = {u.split("/")[2] for u in urls if u.startswith("http")}
+                self.assertEqual(hosts, {"www.youtube.com"})
+            finally:
+                ctx.close()
+
+    def test_unexpected_error_shows_fixed_message(self):
+        """DD-0001 T-E4：通信の失敗（想定外）では、英語の元のメッセージではなく日本語の定型文を出す"""
+        expected = ("解析中に予期しないエラーが起きました。ページを再読み込みしてから、もう一度お試しください。"
+                    "何度か試しても同じ場合は、YouTube 側の仕様変更で読み取れなくなっている可能性があります。")
+
+        def route_with_abort(route):
+            u = route.request.url
+            if "/watch?" in u and "hl=ja" in u:      # fetcher.js の視聴ページの取得だけを失敗させる
+                return route.abort()
+            return self.route(route)
+
+        with sync_playwright() as pw:
+            ctx = pw.chromium.launch_persistent_context(
+                os.path.join(self.tmp, "profile-unexpected"), channel="chromium", headless=True,
+                args=[f"--disable-extensions-except={EXT}", f"--load-extension={EXT}"],
+                viewport={"width": 1400, "height": 1000})
+            try:
+                ctx.route("https://www.youtube.com/**", route_with_abort)
+                pg = ctx.new_page()
+                errors = []
+                pg.on("pageerror", lambda e: errors.append(str(e)))
+                pg.goto(f"https://www.youtube.com/watch?v={VID}")
+                pg.wait_for_selector(".hlx-fab", timeout=20000)
+                pg.click(".hlx-fab")
+                pg.click(".hlx-primary")
+                pg.wait_for_function("['done','error'].includes(document.querySelector('.hlx-panel').dataset.view)",
+                                     timeout=60000)
+                self.assertEqual(pg.eval_on_selector(".hlx-panel", "e => e.dataset.view"), "error")
+                status = pg.inner_text(".hlx-status")
+                self.assertEqual(status, expected)
+                self.assertNotIn("Failed to fetch", status)
                 self.assertEqual(errors, [])
             finally:
                 ctx.close()

@@ -3,7 +3,7 @@ id: TS-0001
 title: /live/<ID> 形式URLへの対応
 status: approved
 reviewer: chrome-dev-kacho
-detail_design: DD-0001（未作成。不具合 INC-0001 の修正のため、設計書より先に回帰テストを置いた）
+detail_design: なし（INC-0001 は設計書を作らない）
 updated: 2026-10-30
 ---
 # TS-0001 /live/<ID> 形式URLへの対応 テスト仕様書

@@ -62,6 +62,23 @@ html[dark] .hlx-panel, html[dark] .hlx-fab {
 .hlx-status { color: var(--hlx-sub); margin-bottom: 10px; }
 .hlx-panel[data-view="error"] .hlx-status { color: var(--hlx-accent); }
 
+/* 初回案内（BD-0001 4.2）。通常の流れに置き、重ねない */
+.hlx-notice {
+  background: var(--hlx-card); color: var(--hlx-fg);
+  border-left: 3px solid var(--hlx-accent); border-radius: 8px;
+  padding: 10px 12px; margin-bottom: 10px;
+  font-size: 12px; line-height: 1.5;
+}
+.hlx-notice[hidden] { display: none; }
+.hlx-notice-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.hlx-notice-text { margin-bottom: 6px; }
+.hlx-notice-ok {
+  padding: 4px 12px; border-radius: 999px; border: 1px solid var(--hlx-accent);
+  background: transparent; color: var(--hlx-accent);
+  font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+.hlx-notice-ok:hover { background: var(--hlx-bg); }
+
 .hlx-btn {
   display: block; width: 100%; padding: 10px; margin-bottom: 10px;
   border: 1px solid var(--hlx-line); border-radius: 8px;

@@ -26,6 +26,10 @@
   #msg { margin-left:8px; color:var(--sub); }
   #errors { color:var(--accent); font-size:12px; margin-top:6px; white-space:pre-line; }
   hr { border:none; border-top:1px solid var(--line); margin:28px 0; }
+  .disclosure { margin-top:20px; padding-top:12px; border-top:1px solid var(--line); font-size:13px; line-height:1.7; }
+  .disclosure h2 { font-size:14px; margin:12px 0 4px; color:var(--fg); }
+  .disclosure p { margin:0 0 6px; }
+  .disclosure ul.plain { list-style:none; margin:0 0 6px; padding:0 0 0 1em; }
 </style>
 </head>
 <body>
@@ -79,6 +83,27 @@
     <div class="help" id="cacheInfo">確認中…</div>
     <div style="margin-top:8px"><button id="clear">保存したチャットをすべて削除</button></div>
     <div class="help">一度解析した配信はチャットを保存しているので、次回は一瞬で表示されます。</div>
+    <div class="disclosure">
+      <h2>この拡張機能について</h2>
+      <p>この拡張機能は、YouTube・Google とは関係のない、非公式のものです。YouTube や Google が提供・承認したものではありません。</p>
+      <p>チャットは YouTube の非公開の内部の仕組みで読み込んでいるため、YouTube 側の仕様変更で、予告なく動かなくなることがあります。</p>
+      <p>無保証です。ご利用は自己責任でお願いします。切り抜きの際は、配信者の切り抜きガイドラインを確認してください。</p>
+
+      <h2>読むもの・保存するもの</h2>
+      <p><strong>このツールが読むもの</strong>：開いている動画の情報（動画ID・タイトル・配信者名・長さ・「よく再生された部分」のデータ）と、チャットのコメント（本文・投稿時刻・通常／スーパーチャット／メンバー系の種別）。</p>
+      <p><strong>このPCに保存するもの</strong>：</p>
+      <ul class="plain">
+        <li>・解析した配信の情報（動画ID・タイトル・配信者名・長さ・「よく再生された部分」のデータ）と、保存した日時。</li>
+        <li>・解析した配信ごとのチャット（コメントの本文・時刻・種別）。メンバー系は本文を保存しません。</li>
+        <li>・「確認済み」にした見どころの印。</li>
+        <li>・設定（候補の出やすさ、集計の細かさ、候補の最大数、何秒前から再生するか、検知するワード）。</li>
+        <li>・はじめの案内を確認したという記録。</li>
+      </ul>
+      <p><strong>保存場所</strong>：このPCの Chrome の中（拡張機能用の保存領域）。設定は、Chrome の同期を有効にしている場合、Google アカウントを通じて同期されることがあります。</p>
+      <p><strong>保存しないもの</strong>：コメントを書いた人（視聴者）の名前・チャンネル・アイコン・スーパーチャットの金額。（配信者名は、配信の情報として保存します。）ただし、コメント本文に視聴者が自分で書いた内容は、そのまま保存されます。</p>
+      <p><strong>送信</strong>：この拡張機能の作者や第三者のサーバーへ、データを送ることはありません。通信するのは YouTube だけです（動画ページとチャットを読み込むため。ログイン情報は付けません）。</p>
+      <p><strong>削除</strong>：このページの「保存したチャットをすべて削除」で、解析したチャットと「確認済み」の印が消えます。設定と、はじめの案内を確認した記録は消えません（設定は「初期設定に戻す」で消えます）。拡張機能そのものは、Chrome の拡張機能の管理画面（chrome://extensions）から削除できます。</p>
+    </div>
   </div>
 </div>
 <script src="analyzer.js"></script>
