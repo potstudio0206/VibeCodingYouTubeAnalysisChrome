@@ -28,7 +28,7 @@
       return { ...HLX_DEFAULTS, ...((o && o.hlxSettings) || {}) };
     } catch (e) { return { ...HLX_DEFAULTS }; }
   }
-  const currentVid = () => location.pathname === '/watch' ? new URLSearchParams(location.search).get('v') : null;
+  const currentVid = () => hlxVideoIdFromUrl(location.pathname, location.search);
   const video = () => document.querySelector('#movie_player video') || document.querySelector('video');
 
   function seek(t) {
