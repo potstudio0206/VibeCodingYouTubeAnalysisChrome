@@ -159,9 +159,34 @@ class ExtensionE2ETest(unittest.TestCase):
         if "/live_chat_replay" in u:
             return route.fulfill(status=200, content_type="text/html",
                                  body='<script>window["ytInitialData"] = ' + json.dumps(self.first, ensure_ascii=False) + ";</script>")
-        if "/watch" in u:
+        if "/watch" in u or "/live/" in u:
             return route.fulfill(status=200, content_type="text/html; charset=utf-8", body=self.watch)
         return route.fulfill(status=404, body="")
+
+    def test_live_url_shows_fab_and_analyzes(self):
+        """INC-0001 回帰：/live/<ID> 形式のURLでも「見どころ」ボタンが出て、解析が完了する"""
+        with sync_playwright() as pw:
+            ctx = pw.chromium.launch_persistent_context(
+                os.path.join(self.tmp, "profile-live"), channel="chromium", headless=True,
+                args=[f"--disable-extensions-except={EXT}", f"--load-extension={EXT}"],
+                viewport={"width": 1400, "height": 1000})
+            try:
+                ctx.route("https://www.youtube.com/**", self.route)
+                pg = ctx.new_page()
+                errors = []
+                pg.on("pageerror", lambda e: errors.append(str(e)))
+                pg.goto(f"https://www.youtube.com/live/{VID}")
+                pg.wait_for_selector(".hlx-fab", timeout=20000)
+                pg.click(".hlx-fab")
+                pg.click(".hlx-primary")
+                pg.wait_for_function("['done','error'].includes(document.querySelector('.hlx-panel').dataset.view)",
+                                     timeout=60000)
+                self.assertEqual(pg.eval_on_selector(".hlx-panel", "e => e.dataset.view"), "done",
+                                 pg.inner_text(".hlx-status"))
+                self.assertIn("見どころ候補", pg.inner_text(".hlx-status"))
+                self.assertEqual(errors, [])
+            finally:
+                ctx.close()
 
     def test_panel_analysis_and_video_sync(self):
         with sync_playwright() as pw:

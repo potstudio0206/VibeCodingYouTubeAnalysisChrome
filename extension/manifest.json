@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["analyzer.js", "fetcher.js", "content.js"],
+      "js": ["analyzer.js", "fetcher.js", "viewmodel/videoid.js", "content.js"],
       "css": ["panel.css"],
       "run_at": "document_idle"
     }
