@@ -29,22 +29,114 @@ updated: 2026-10-30
 | `extension/content.js` | View | View係（`chrome-dev-view`） | 初回案内の要素・表示判断・閉じる操作・保存、`onChanged` の条件追加、`start()` の catch の置き換え | 4.1 節 |
 | `extension/panel.css` | View | View係 | `.hlx-notice` 一式を追加 | 4.2 節 |
 | `extension/options.html` | View | View係 | 「保存したチャット」の項に開示（静的な文）とその見た目を追加 | 4.3 節 |
-| `extension/README.txt` | View | View係 | 4.5 節の全文に置き換え（1行目の版数は当面 `ver 1.2.0`。1.3 節） | 4.5 節 |
+| `extension/README.txt` | View | View係 | 4.5 節の全文に置き換え（1行目の版数は `ver 1.2.1`。1.3 節） | 4.5 節 |
 | `tests/e2e/test_extension_e2e.py` | View（テスト） | View係 | 初回案内の E2E と想定外エラーの E2E を追加。既存2件は変えない | 7章 |
 | `extension/options.js`・`analyzer.js`・`background.js`・`icons/**`・`shared/**` | ― | ―（変更なし） | 変更しない | ― |
 
-### 1.2 #7 の回答待ち（回答まで着手しない）
-| ファイル | 担当（係） | 変更の内容 | 依存する #7 の項目 |
-|---|---|---|---|
-| `extension/manifest.json` | View係 | `"version"` の1行だけ（BD 8.2）。上げない回答なら変更なし | #7(b) |
-| `extension/README.txt` の1行目 | View係（1.1 節と同じ係・同じファイル） | 1.2.1 に上げる回答なら `ver 1.2.1` に（manifest と同じコミットで） | #7(b) |
-| `extension/README.txt` の「■ ライセンス」節 | View係（同上） | 回答どおりに末尾へ追加（BD 8.1） | #7(a) |
-| `README.md`（リポジトリ直下） | **未定**（推奨：View係。ownership.json への追加が要る） | BD 4.6 節の構成 | #7(c)（担当）、#7(a)（ライセンスの節） |
-| `LICENSE`（リポジトリ直下） | **未定**（同上） | BD 8.1 節 | #7(a)・#7(c) |
+### 1.2 社長判断 #7 の回答による追加作業（2026-10-30 回答。すぐ着手してよい）
+回答：A1 MIT ライセンス（著作権者名「なべさん」、年 2026）／B1 README.md・LICENSE は View係と開発課長の持ち場（ownership.json に追加済み、コミット b901c0a）／C1 版数を 1.2.1 に上げる（PR のマージは社長の再承認後）。BD-0001 8章。
 
-### 1.3 版数の当面の扱い
-- `README.txt` の1行目は、1.1 の作業で `ver 1.2.0`（今の manifest の version と同じ3桁）にする。これで A-22 は当面満たされ、#7(b) が「上げない」なら追加の作業は無い。
-- #7(b) が「1.2.1 に上げる」なら、`manifest.json` の version と `README.txt` の1行目を**同じコミットで** `1.2.1` にする（BD 8.2）。
+| ファイル | 担当（係） | 変更の内容 | 本書の節 | #7 の項目 |
+|---|---|---|---|---|
+| `extension/manifest.json` | View係 | 4 行目 `"version": "1.2.0",` → `"version": "1.2.1",`。この1行だけ | 1.3 節 | C1 |
+| `extension/README.txt` の1行目 | View係（1.1 節と同じ係・同じファイル） | `ver 1.2.0` → `ver 1.2.1`（manifest と同じコミットで） | 1.3 節 | C1 |
+| `extension/README.txt` の末尾 | View係（同上） | 「■ ライセンス」節を追加 | 1.2.2 節 | A1 |
+| `LICENSE`（リポジトリ直下、**新規**） | View係 | MIT の全文 | 1.2.1 節 | A1・B1 |
+| `README.md`（リポジトリ直下） | View係 | 1.2.3 節の全文に置き換え | 1.2.3 節 | A1・B1 |
+
+- 開発課長も `README.md`・`LICENSE` の持ち場に入っているが、本件で編集するのは View係だけ（1ファイル1係）。開発課長はレビューする。
+- 同じブランチ（feat/license-version）で行う。上の5つは1つの PR にまとめる。
+
+#### 1.2.1 `LICENSE`（新規）
+- 置き場所：リポジトリ直下（`README.md` と同じ階層）。ファイル名は拡張子なしの `LICENSE`。`extension/` には置かない（BD 8.1）。
+- 文字コード：UTF-8（BOM なし）。改行は `.gitattributes` の `* text=auto` に任せる（リポジトリ内は LF）。末尾に改行1つ。
+- 条文は MIT ライセンスの標準の英文を**1文字も変えずに**使う（GitHub のライセンス自動判別のため。訳さない・言い回しを変えない）。変えるのは著作権の行の年と名前だけ。全文は次のとおり。
+
+```text
+MIT License
+
+Copyright (c) 2026 なべさん
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+- 例外として英文の書類になる（CLAUDE.md 13章の「書類は日本語」の例外。ライセンスの条文は原文が正のため）。日本語の説明は README.md・README.txt のライセンスの節に書く。
+
+#### 1.2.2 `extension/README.txt` の「■ ライセンス」節
+4.5.2 節の全文の末尾（「■ 保存するデータ」の【削除】の行）の後ろに、空行1つを置いて次の2行を足す。
+
+```text
+■ ライセンス
+MIT ライセンスです（Copyright (c) 2026 なべさん）。全文はリポジトリ直下の LICENSE にあります。
+```
+- 文字コード・BOM・改行は 4.5.1 節のまま（UTF-8 BOM あり、作業ツリーで CRLF）。末尾に改行1つ。
+
+#### 1.2.3 `README.md`（この全文に置き換える）
+- 文字コード：UTF-8（BOM なし。今と同じ）。改行は今と同じ（作業ツリーで CRLF。リポジトリ内は LF）。
+- 「開発・運用の体制」「テスト」の節は今の文を1文字も変えない。
+- 注意の引用ブロックは、1文ずつ段落に分ける（`>` だけの行をはさむ。Markdown では行末の改行だけでは1段落につながるため）。
+
+````markdown
+# VibeCodingYouTubeAnalysisChrome
+
+YouTube配信アーカイブのページで、チャットから盛り上がった場面を見つける Chrome 拡張機能 **in Chrome版** です。
+コメント量・加速度・同じコメントの割合をタイムライン（ヒートマップ／折れ線）で表示し、クリックでその場面へジャンプ、再生位置やシークバーとも連動します。
+
+> **ご注意（はじめにお読みください）**
+>
+> この拡張機能は、YouTube・Google とは関係のない、非公式のものです。YouTube や Google が提供・承認したものではありません。
+>
+> チャットは YouTube の非公開の内部の仕組みで読み込んでいるため、YouTube 側の仕様変更で、予告なく動かなくなることがあります。
+>
+> 無保証です。ご利用は自己責任でお願いします。切り抜きの際は、配信者の切り抜きガイドラインを確認してください。
+>
+> 入れ方・使い方・保存するデータの説明は [extension/README.txt](extension/README.txt) にあります。
+
+姉妹製品：[in App版（PCツール）](https://github.com/potstudio0206/VibeCodingYouTubeAnalysisApp)
+
+## 使う
+1. 入手する：`git clone https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome.git`、またはこのページの「Code」→「Download ZIP」でダウンロードして解凍します。
+2. Chrome の `chrome://extensions` でデベロッパーモードをオンにし、「パッケージ化されていない拡張機能を読み込む」でリポジトリ直下の `extension` フォルダを読み込みます。
+3. 入れ方・更新のしかた・使い方・保存するデータの詳細は [extension/README.txt](extension/README.txt) を読んでください。
+
+## 不具合の連絡
+[Issue](https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues) で知らせてください（GitHub のアカウントが必要です）。
+
+## ライセンス
+[MIT ライセンス](LICENSE)です（Copyright (c) 2026 なべさん）。
+
+## 開発・運用の体制
+（今の「## 開発・運用の体制」の節をそのまま）
+
+## テスト
+（今の「## テスト」の節をそのまま。コードブロックを含む）
+````
+- 「（今の…をそのまま）」の2か所は、現行の README.md の該当の節の本文を**1文字も変えずに**置く（括弧書きを残さない）。
+- 注意の4文のうち最初の3文は BD 4.1 節の正本と同じ（初回案内・README.txt「■ はじめに」・options.html と一致させる。D-4）。
+- 「使う」は手順の本体を書かない（F-41）。clone の URL と `extension` フォルダは README.txt と同じ。
+- 禁止表現（DC-06）を含まない。外部の画像・バッジを足さない。
+
+### 1.3 版数（#7 C1：1.2.1 に上げる）
+- `extension/manifest.json` の `"version"` と `extension/README.txt` の1行目を、**同じコミットで** `1.2.1` にする（BD 8.2、A-22）。
+  - manifest：`  "version": "1.2.0",` → `  "version": "1.2.1",`（字下げ・カンマはそのまま。ほかの行は変えない）。
+  - README.txt：`配信 盛り上がり検知 in Chrome（Chrome拡張機能） ver 1.2.0` → `配信 盛り上がり検知 in Chrome（Chrome拡張機能） ver 1.2.1`（先頭の BOM はそのまま）。
+- 版数を表す文字列は、extension/ の中ではこの2か所だけ（grep で確認。tests/ には無い）。
+- 版数の更新はリリースに当たるため、PR のマージは社長の再承認後（#7 C1）。
 
 ### 1.4 作業の順と結合
 - 3係は並行して進めてよい（名前と形は本書で確定）。
@@ -420,7 +512,7 @@ div.hlx-panel
 - 編集後に `file extension/README.txt` で「UTF-8 (with BOM)」のままであることを確かめる。
 
 #### 4.5.2 新しい全体（この全文に置き換える）
-`<版数>` は 1.3 節のとおり当面 `1.2.0`。行頭の全角空白・半角空白は下のとおり。
+`<版数>` は 1.3 節のとおり `1.2.1`。行頭の全角空白・半角空白は下のとおり。
 
 ```text
 配信 盛り上がり検知 in Chrome（Chrome拡張機能） ver <版数>
@@ -502,7 +594,7 @@ https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues
 ```
 - 「（現行の 19〜29 行をそのまま）」「（現行の 49〜52 行をそのまま）」の2か所は、**現行の行を1文字も変えずに**その位置に置く（説明の括弧書きを残さない）。
 - 「■ 保存するデータ」は options.html（4.3.1）と同じ文。違いは、強調を `<strong>…</strong>：` → `【…】` にしたことと、「削除」の「このページの」→「設定画面（⚙）の「保存したチャット」の」の1語句だけ（BD 4.5 順10）。
-- 「■ ライセンス」節は作らない（#7(a) の回答待ち。1.2 節）。
+- 末尾に「■ ライセンス」節を足す（1.2.2 節。#7 A1）。
 - 「hlx-ext」は1か所も残らない。「数分」も残らない（F-13）。
 
 #### 4.5.3 現行からの変更点（確認用）
@@ -619,18 +711,18 @@ https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues
 |---|---|---|---|
 | DC-01 | `grep -n "hlx-ext" extension/README.txt` が 0 件。入れ方の記述が `extension` フォルダ | 文書 | A-01 |
 | DC-02 | README.txt の「■ 更新するとき」が (a)(b) の2通りで、どちらも ↻ とタブの再読み込みを含む | 文書 | A-04 |
-| DC-03 | README.md の冒頭の注意と README.txt への案内（#7(c) の回答後） | 文書 | A-05 |
+| DC-03 | README.md が 1.2.3 節の全文と一致。導入手順（## 使う）より前に注意の引用ブロックと README.txt への案内がある | 文書 | A-05 |
 | DC-04 | README.txt の「■ はじめに」に 4.1 節の3文、「■ 注意」の3項目が現行のまま | 文書 | A-06 |
 | DC-05 | options.html の文が 4.3.1 と一致 | 文書 | A-09・A-10 |
 | DC-06 | `grep -nE "一切\|何も保存しない\|個人情報を含まない\|完全に安全\|規約に違反しない\|規約上問題ない\|裏技" extension/options.html extension/README.txt README.md extension/content.js` が 0 件。開示にコメント本文の保存・投稿者名を保存しない・YouTube 以外へ送らない、が書かれている | 文書 | A-11 |
 | DC-07 | 開示の文（options.html・README.txt）の削除の文が「`chat_`・`seen_` だけ消える／設定と既読は消えない」と一致 | 文書＋レビュー | A-12 |
-| DC-08 | `git diff extension/manifest.json` が空（#7(b) で上げる場合は `"version"` の1行だけ） | レビュー | A-17 |
+| DC-08 | `git diff main -- extension/manifest.json` が `"version"` の1行（`1.2.0` → `1.2.1`）だけ | レビュー | A-17 |
 | DC-09 | `grep -n "fetch(" extension/` が fetcher.js の3件だけ。案内・開示に外部の URL・画像・`url()` が無い | レビュー | A-18 |
 | DC-10 | `node --test "tests/unit/*.test.js"` がすべて通る | 自動 | A-19・A-21 |
 | DC-11 | `python -m unittest discover -s tests/e2e -v` がすべて通る | 自動 | A-20 |
 | DC-12 | `python shared/reference/metrics_ref.py --check` が通る。`git diff shared/ extension/analyzer.js` が空 | 自動＋レビュー | A-21 |
-| DC-13 | README.txt の1行目の版数と manifest の version が一致（当面 1.2.0） | 文書 | A-22 |
-| DC-14 | #7(a) の回答どおりの LICENSE と README の表記（回答後） | 文書 | A-23 |
+| DC-13 | README.txt の1行目の版数と manifest の version が一致（`1.2.1`）。2つの変更が同じコミットに入っている（`git log -p`） | 文書 | A-22 |
+| DC-14 | `LICENSE` が 1.2.1 節の全文と一致（著作権の行 `Copyright (c) 2026 なべさん`）。README.md の「## ライセンス」・README.txt の「■ ライセンス」が 1.2.2・1.2.3 節と一致。GitHub のリポジトリ画面でライセンスが MIT と判別される（push 後、任意） | 文書 | A-23 |
 | DC-15 | `file extension/README.txt` が「UTF-8 (with BOM)」のまま | 文書 | ― |
 | DC-16 | content.js に `innerHTML` の追加が無い | レビュー | ― |
 
@@ -641,7 +733,7 @@ https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues
 | A-02 | M-1 |
 | A-03 | M-2 |
 | A-04 | DC-02 |
-| A-05 | DC-03（#7(c) 待ち） |
+| A-05 | DC-03 |
 | A-06 | DC-04 |
 | A-07 | T-E1・T-E3・T-V1・M-3 |
 | A-08 | T-E2・T-V1・T-V2・M-3 |
@@ -659,7 +751,7 @@ https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues
 | A-20 | T-E3・DC-11 |
 | A-21 | DC-10・DC-12 |
 | A-22 | DC-13 |
-| A-23 | DC-14（#7(a) 待ち） |
+| A-23 | DC-14 |
 
 ## 8. 前提となるリファクタリング
 - **本件の前に必要なリファクタリングは無い。** 変更は既存の構造の中で閉じる（新しいファイルは製品コードに足さない。テストの新規ファイル1つだけ）。
@@ -678,7 +770,13 @@ https://github.com/potstudio0206/VibeCodingYouTubeAnalysisChrome/issues
 - 確かめ方：7.5 節 DC-10（`shared_spec.test.js` を含む）・DC-12。
 
 ## 付記 変えてはいけないもの
-- `extension/manifest.json` の `permissions`（`storage`・`unlimitedStorage`）・`host_permissions`（無し）・`content_scripts`（`matches`・`js` の配列と順・`css`・`run_at`）を変えない。変えてよいのは #7(b) の回答による `"version"` の1行だけ。
+- `extension/manifest.json` の `permissions`（`storage`・`unlimitedStorage`）・`host_permissions`（無し）・`content_scripts`（`matches`・`js` の配列と順・`css`・`run_at`）を変えない。変えてよいのは #7 C1 による `"version"` の1行（`1.2.1`）だけ。
 - `fetch` を足さない（`fetch(` は fetcher.js の3か所のまま）。案内・開示のために外部の画像・フォント・スクリプト・`url()`・リンク先の自動取得を使わない。
 - `options.js`（`clearCache` の消す対象 `chat_`・`seen_`、確認ダイアログの文）を変えない。
 - content.js で `innerHTML` を使わない。
+
+## 改訂履歴
+| 日付 | 版 | 内容 | 承認 |
+|---|---|---|---|
+| 2026-10-30 | 初版 | 作成・承認 | chrome-design-kacho |
+| 2026-10-30 | 追補1 | 社長判断 #7 の回答（A1 MIT・なべさん・2026／B1 View係／C1 1.2.1）に合わせ、1.2 節（LICENSE の全文、README.txt のライセンス節、README.md の全文）と 1.3 節（版数 1.2.1）を確定。4.5.2・7.5・7.6・付記の該当箇所を更新 | chrome-design-kacho |
