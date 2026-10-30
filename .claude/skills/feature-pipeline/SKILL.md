@@ -14,7 +14,7 @@ argument-hint: "[依頼の内容 または Issue番号]"
 ## 1. 受付
 - 依頼を1文に要約する。Issue番号なら `gh issue view <番号>` で読む。
 - main を最新にして作業ブランチを作る：`git switch main && git pull && git switch -c feat/<短い英語名>`
-- 社長指示Issueなら「受け付けました。進め方：…」とコメントする。
+- 社長指示Issueなら「受け付けました。進め方：…」とコメントする（末尾に「— Chrome拡張機能部 部長（Claude）」。GitHub に書くときは以降も同じ）。
 
 ## 2. 研究（必要なときだけ）
 - 新しいライブラリや技術が必要そうなら、研究課長（chrome-research-kacho）に調査と推奨を依頼する。
@@ -40,7 +40,7 @@ argument-hint: "[依頼の内容 または Issue番号]"
 - 保守運用書の更新が必要なら、品質保証課の保守運用書係が更新する。
 
 ## 8. PR
-- `git push -u origin <ブランチ>` の後、`gh pr create` でPRを作る。本文に：要約、REQ / BD / DD / TS / QA の番号、変更点、テスト結果、社長判断のIssue番号（あれば）。
+- `git push -u origin <ブランチ>` の後、`gh pr create` でPRを作る。本文に：要約、REQ / BD / DD / TS / QA の番号、変更点、テスト結果、社長判断のIssue番号（あれば）、末尾に署名「— Chrome拡張機能部 部長（Claude）」。
 
 ## 9. マージの判断
 - バグ修正・リファクタリング・書類だけの変更：部長がマージしてよい（`gh pr merge --squash --delete-branch`）。

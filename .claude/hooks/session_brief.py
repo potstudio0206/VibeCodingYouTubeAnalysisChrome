@@ -12,6 +12,7 @@ import sys
 from hooklib import DEPT_NAME, PROJECT, now, read_input, tail_jsonl
 
 OWNER = "potstudio0206"
+SIGNATURE = "（Claude）"   # Claude が GitHub に書く文章の末尾の署名。これが無いコメントだけを社長の返答とみなす
 
 
 def gh_json(args):
@@ -46,7 +47,8 @@ def issues(label):
         comments = it.get("comments") or []
         last = comments[-1] if comments else None
         mark = ""
-        if last and (last.get("author") or {}).get("login") == OWNER:
+        if (last and (last.get("author") or {}).get("login") == OWNER
+                and SIGNATURE not in (last.get("body") or "")):
             mark = "　★社長のコメントあり"
         lines.append(f"  #{it['number']} {it['title']}（更新 {fmt_time(it.get('updatedAt'))}）{mark}")
     return lines
