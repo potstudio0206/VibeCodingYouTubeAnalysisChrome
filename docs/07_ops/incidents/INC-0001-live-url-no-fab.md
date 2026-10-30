@@ -1,7 +1,7 @@
 ---
-status: review
+status: approved
 author: chrome-ops-kacho
-reviewer: ―
+reviewer: chrome-ops-kacho
 ---
 # INC-0001 /live/<ID> 形式のURLで「見どころ」ボタンが出ない
 
@@ -10,7 +10,7 @@ reviewer: ―
 | 発見 | 2026-10-30 定期スモークテスト（運用記録 docs/07_ops/logs/2026-10-30.md） |
 | 対象版 | 1.2.0（extension/manifest.json） |
 | 深刻度 | 高（配信アーカイブの共有URLで拡張機能が全く使えない） |
-| 状態 | 原因特定済み・修正待ち（ブランチ fix/live-url-support、開発課が修正中） |
+| 状態 | 解決済み（修正コミット e4eb54a、ブランチ fix/live-url-support。2026-10-30 実配信で確認済み。マージ待ち） |
 
 ## 症状
 - https://www.youtube.com/live/fPnkoOtQIyE を開くと、右下の「見どころ」ボタンが出ない（表示サイズ 0×0）。
@@ -57,4 +57,4 @@ reviewer: ―
 |---|---|
 | 2026-10-30 約21時 | 定期スモークテストで発見。再現を確認 |
 | 2026-10-30 | 部長に報告。社長が修正を承認。障害記録を作成 |
-| 未定 | 修正のマージ後、実配信（/live/ URL）で再確認し、本書を approved にして閉じる |
+| 2026-10-30 夜 | 修正（e4eb54a）を実配信で再確認。/live/ 2本（574件・782件、各20か所）と /watch の退行確認がいずれも合格。解決済み。詳細は docs/07_ops/logs/2026-10-30.md |

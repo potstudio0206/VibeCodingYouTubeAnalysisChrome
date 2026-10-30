@@ -12,7 +12,7 @@
 | リファクタリング課 | 待機 | ― | MVVMへの移行計画（RF-0001） | ― |
 | 開発課 | INC-0001 修正を実装済み（レビュー完了） | ViewModel係・View係 | 品質保証課の確認、部長のコミット | なし |
 | 品質保証課 | INC-0001 の確認を完了（QA-0001 合格）。保守運用書に再発防止を反映し承認（2026-10-30） | chrome-qa-kacho・chrome-qa-opsdoc | マージ後、運用係による本物の /live/ URL での再確認（運用書2.3） | なし |
-| 保守運用課 | 修正の実配信確認が止まっている | chrome-ops-kacho | 社長が chrome://extensions で拡張機能を再読み込み → 運用係が /live/ と /watch を再確認 | Claude in Chrome は chrome:// を開けず再読み込み不可（INC-0001 は review のまま） |
+| 保守運用課 | INC-0001 の実配信確認を完了（/live/・/watch とも合格、解決済み） | chrome-ops-kacho | 修正のマージ後、次回定期確認（3本目の /live/ URL） | なし |
 | プレイヤー代理課 | 待機 | ― | 初回の試用（/player-session） | ― |
 
 ## 部長の判断記録
