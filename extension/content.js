@@ -39,8 +39,9 @@
   }
 
   // ---------- UI ----------
-  let fab, panel, statusEl, progWrap, progBar, progText, startBtn, cancelBtn, chartWrap, canvas, tipEl, toolbar, listEl, toast;
+  let fab, panel, noticeEl, statusEl, progWrap, progBar, progText, startBtn, cancelBtn, chartWrap, canvas, tipEl, toolbar, listEl, toast;
   let sortScoreBtn, sortTimeBtn;
+  let noticeDone = false;   // このページで案内が確認済みになったか（ボタン、または他のタブでの確認）
 
   function buildUI() {
     fab = el('button', 'hlx-fab');
@@ -59,6 +60,7 @@
     close.addEventListener('click', () => panel.classList.remove('hlx-open'));
     head.append(gear, close);
 
+    noticeEl = buildNotice();
     statusEl = el('div', 'hlx-status');
 
     progWrap = el('div', 'hlx-prog');
@@ -119,8 +121,39 @@
     listEl = el('div', 'hlx-list');
     toast = el('div', 'hlx-toast');
 
-    panel.append(head, statusEl, progWrap, startBtn, cancelBtn, chartWrap, toolbar, listEl, toast);
+    panel.append(head, noticeEl, statusEl, progWrap, startBtn, cancelBtn, chartWrap, toolbar, listEl, toast);
     document.body.append(fab, panel);
+  }
+
+  // ---------- 初回案内（BD-0001 3.1・4.2） ----------
+  function buildNotice() {
+    const box = el('div', 'hlx-notice');
+    box.hidden = true;                       // 既読の読み出しが終わるまで隠す
+    box.setAttribute('role', 'note');
+    const ok = el('button', 'hlx-notice-ok', '確認しました');
+    ok.type = 'button';
+    ok.addEventListener('click', ackNotice);
+    box.append(
+      el('div', 'hlx-notice-title', 'はじめにお読みください'),
+      el('div', 'hlx-notice-text', 'この拡張機能は、YouTube・Google とは関係のない、非公式のものです。YouTube や Google が提供・承認したものではありません。チャットは YouTube の非公開の内部の仕組みで読み込んでいるため、YouTube 側の仕様変更で、予告なく動かなくなることがあります。無保証です。ご利用は自己責任でお願いします。切り抜きの際は、配信者の切り抜きガイドラインを確認してください。'),
+      el('div', 'hlx-notice-text', '解析した配信の情報とチャット（コメントの本文・時刻・種別）、「確認済み」の印、設定、この案内を確認した記録を、このPCの Chrome の中に保存します。コメントを書いた人の名前・チャンネル・アイコン・スーパーチャットの金額は保存しません。データを作者や第三者のサーバーへ送ることはありません（通信するのは YouTube だけです）。'),
+      el('div', 'hlx-notice-text', '詳しい説明と削除の方法は、設定（⚙）の「保存したチャット」にあります。'),
+      ok,
+    );
+    return box;
+  }
+  function hideNotice() {
+    noticeDone = true;
+    noticeEl.hidden = true;
+  }
+  function ackNotice() {
+    hideNotice();
+    store.set(HLX_NOTICE_KEY, HLX_NOTICE_VERSION);   // 待たない。失敗は store.set の中で握りつぶす（このページでは隠したまま）
+  }
+  function initNotice() {
+    store.get(HLX_NOTICE_KEY).then((v) => {
+      if (!noticeDone && hlxShouldShowNotice(v)) noticeEl.hidden = false;
+    }).catch(() => {});
   }
 
   function setView(view) {
@@ -174,9 +207,11 @@
       S.items = cached.items;
       await runAnalysis();
     } catch (e) {
-      if (!alive() || e.message === '__aborted__') return;
+      if (!alive() || (e && e.message) === '__aborted__') return;
+      const st = hlxErrorStatus(e);
+      if (st.unexpected) console.error('[盛り上がり検知]', e);
       setView('error');
-      setStatus(e.message || String(e));
+      setStatus(st.text);
     } finally {
       if (alive()) S.running = false;
     }
@@ -462,6 +497,7 @@
   // ---------- 起動 ----------
   buildUI();
   setView('idle');
+  initNotice();
   document.addEventListener('yt-navigate-finish', onNav);
   let lastHref = location.href;
   setInterval(() => {
@@ -506,6 +542,7 @@
 
   safe(() => chrome.storage.onChanged.addListener((ch, area) => {
     if (area === 'sync' && ch.hlxSettings && S.items) runAnalysis();
+    if (area === 'local' && ch[HLX_NOTICE_KEY] && !hlxShouldShowNotice(ch[HLX_NOTICE_KEY].newValue)) hideNotice();
   }));
   safe(() => chrome.runtime.onMessage.addListener((m) => {
     if (m && m.type === 'hlx-toggle' && currentVid()) togglePanel();

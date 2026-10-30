@@ -15,7 +15,8 @@ function loadExtension(globals = {}) {
     .join('\n;\n');
   vm.runInContext(code + `
 ;this.__ext = { hlxAnalyze, hlxFmt, hlxNormalize, hlxParseKeywords, HLX_DEFAULTS,
-  hlxCollect, hlxFetchChat, hlxExtractVar, hlxExtractHeatmap, hlxRunsToText };`, ctx, { filename: 'extension' });
+  hlxCollect, hlxFetchChat, hlxExtractVar, hlxExtractHeatmap, hlxRunsToText,
+  hlxUserError, HLX_SPEC_CHANGE_TAIL, HLX_SPEC_CHANGE_NOTE };`, ctx, { filename: 'extension' });
   return ctx.__ext;
 }
 
