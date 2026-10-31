@@ -31,6 +31,42 @@ def gh_json(args):
         return None, "取得できませんでした（応答を読めません）"
 
 
+def git(args, timeout=10):
+    try:
+        r = subprocess.run(["git"] + args, cwd=PROJECT, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", timeout=timeout)
+        return r.returncode, (r.stdout or "").strip()
+    except Exception:
+        return 1, ""
+
+
+def workspace():
+    """作業フォルダが main の最新か。古いと、古い組織設定（.claude/）とコードで動いてしまう"""
+    code, branch = git(["rev-parse", "--abbrev-ref", "HEAD"])
+    if code != 0:
+        return ["  確認できませんでした（git が使えません）"], False
+    _, dirty = git(["status", "--porcelain"])
+    n_dirty = len([x for x in dirty.splitlines() if x.strip()])
+    fetched = git(["fetch", "-q", "origin", "main"], timeout=20)[0] == 0
+    _, behind = git(["rev-list", "--count", "main..origin/main"])
+    behind = int(behind) if behind.isdigit() else 0
+    warn, lines = False, []
+    if branch != "main":
+        warn = True
+        lines.append(f"  ⚠ main 以外のブランチにいます：{branch}")
+    if n_dirty:
+        warn = True
+        lines.append(f"  ⚠ コミットされていない変更があります（{n_dirty}件）")
+    if behind:
+        warn = True
+        lines.append(f"  ⚠ 手元の main が GitHub より {behind} 件古いです")
+    if not fetched:
+        lines.append("  （GitHub から最新を取得できなかったため、古さは未確認）")
+    if not warn:
+        lines.append("  main・最新・未コミットの変更なし")
+    return lines, warn
+
+
 def fmt_time(iso):
     return (iso or "")[5:16].replace("T", " ")
 
@@ -79,11 +115,17 @@ def shared_sync():
 
 def main():
     read_input()
+    ws, ws_warn = workspace()
     lines = [f"【起動時ブリーフィング】{now().strftime('%Y-%m-%d %H:%M')}（{DEPT_NAME}）",
-             "■ 社長の判断待ち（ラベル「社長判断」）"] + issues("社長判断")
+             "■ 作業フォルダ（git）"] + ws
+    lines += ["■ 社長の判断待ち（ラベル「社長判断」）"] + issues("社長判断")
     lines += ["■ 社長指示（未完了・ラベル「社長指示」）"] + issues("社長指示")
     lines += ["■ 直近の活動（課長・係長の作業終了、最新10件）"] + activity()
     lines += ["■ 共通仕様（shared/）"] + ["  " + x.strip() for x in shared_sync()]
+    if ws_warn:
+        lines += ["※ 作業フォルダに⚠があります。作業の前に main を最新にしてください："
+                  "未コミットの変更が無ければ git switch main → git pull --ff-only origin main。"
+                  "未コミットの変更があるときは切り替えず、内容を確かめて社長に報告してください。"]
     lines += ["※ ★の付いた判断待ちは、社長の返答を読んで作業を再開してください。"]
     print("\n".join(lines))
     return 0
