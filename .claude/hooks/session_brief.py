@@ -50,6 +50,8 @@ def workspace():
     fetched = git(["fetch", "-q", "origin", "main"], timeout=20)[0] == 0
     _, behind = git(["rev-list", "--count", "main..origin/main"])
     behind = int(behind) if behind.isdigit() else 0
+    _, ahead = git(["rev-list", "--count", "origin/main..main"])
+    ahead = int(ahead) if ahead.isdigit() else 0
     warn, lines = False, []
     if branch != "main":
         warn = True
@@ -60,6 +62,9 @@ def workspace():
     if behind:
         warn = True
         lines.append(f"  ⚠ 手元の main が GitHub より {behind} 件古いです")
+    if ahead:
+        warn = True
+        lines.append(f"  ⚠ 手元の main に、GitHub に無いコミットが {ahead} 件あります（新しいブランチに混ざるおそれ）")
     if not warn:
         if fetched:
             lines.append("  main・最新・未コミットの変更なし")
@@ -128,7 +133,8 @@ def main():
     if ws_warn:
         lines += ["※ 作業フォルダに⚠があります。作業の前に main を最新にしてください："
                   "未コミットの変更が無ければ git switch main → git pull --ff-only origin main。"
-                  "未コミットの変更があるときは切り替えず、内容を確かめて社長に報告してください。"]
+                  "未コミットの変更があるとき、または手元の main に GitHub に無いコミットがあるときは、"
+                  "切り替え・取り込みをせず、内容を確かめて社長に報告してください。"]
     lines += ["※ ★の付いた判断待ちは、社長の返答を読んで作業を再開してください。"]
     print("\n".join(lines))
     return 0
