@@ -60,10 +60,13 @@ def workspace():
     if behind:
         warn = True
         lines.append(f"  ⚠ 手元の main が GitHub より {behind} 件古いです")
-    if not fetched:
-        lines.append("  （GitHub から最新を取得できなかったため、古さは未確認）")
     if not warn:
-        lines.append("  main・最新・未コミットの変更なし")
+        if fetched:
+            lines.append("  main・最新・未コミットの変更なし")
+        else:
+            lines.append("  main・未コミットの変更なし（GitHub から取得できず、最新かどうかは未確認）")
+    elif not fetched:
+        lines.append("  （GitHub から取得できなかったため、main の古さは未確認）")
     return lines, warn
 
 
